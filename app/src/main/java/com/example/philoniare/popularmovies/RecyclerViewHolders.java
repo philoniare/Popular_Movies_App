@@ -7,22 +7,21 @@ import android.widget.ImageView;
 
 import com.example.philoniare.popularmovies.MovieDBAPI.Result;
 
-/**
- * Created by philoniare on 3/11/16.
- */
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public ImageView movie_poster;
+    @Bind(R.id.movie_poster) ImageView movie_poster;
 
     public RecyclerViewHolders(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
         itemView.setOnClickListener(this);
-        movie_poster = (ImageView) itemView.findViewById(R.id.movie_poster);
     }
 
     @Override
     public void onClick(View view) {
         Intent detailViewIntent = new Intent(view.getContext(), DetailActivity.class);
-
 
         Result movie = MainActivity.movies.get(getAdapterPosition());
         detailViewIntent.putExtra("title", movie.getTitle())

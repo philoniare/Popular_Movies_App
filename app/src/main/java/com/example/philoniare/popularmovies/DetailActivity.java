@@ -5,23 +5,29 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-/**
- * Created by philoniare on 3/11/16.
- */
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends AppCompatActivity {
+    @Bind(R.id.play_fab) FloatingActionButton fab;
+    @Bind(R.id.movie_poster) ImageView movie_poster;
+    @Bind(R.id.title) TextView titleView;
+    @Bind(R.id.description) TextView descriptionView;
+    @Bind(R.id.detail_toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
+        ButterKnife.bind(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.play_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -30,8 +36,12 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        try {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        } catch(NullPointerException e) {
+            Log.e("Popular Movies: ", "SupportActionBar - " + e.toString());
+        }
+
         toolbar.getBackground().setAlpha(0);
 
         Bundle bundle = getIntent().getExtras();
@@ -42,14 +52,10 @@ public class DetailActivity extends AppCompatActivity {
         String rating = bundle.getString("rating");
         String trailer = bundle.getString("trailer");
 
-        ImageView movie_poster = (ImageView) findViewById(R.id.movie_poster);
+        // Test with bind here
         String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w500";
         Picasso.with(this).load(BASE_IMAGE_URL + poster).into(movie_poster);
-
-        TextView titleView = (TextView) findViewById(R.id.title);
         titleView.setText(title);
-
-        TextView descriptionView = (TextView) findViewById(R.id.description);
         descriptionView.setText(description);
     }
 }

@@ -19,6 +19,8 @@ import com.example.philoniare.popularmovies.MovieDBAPI.Result;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,26 +28,27 @@ import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private RecyclerView rView;
     private GridLayoutManager layoutManager;
     public static List<Result> movies;
     private Boolean isFabOpen = false;
-    private FloatingActionButton fab,fab_rating,fab_popular;
     private Animation fab_open,fab_close;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.fab_rating) FloatingActionButton fab_rating;
+    @Bind(R.id.fab_popular) FloatingActionButton fab_popular;
+    @Bind(R.id.recyclerView) RecyclerView rView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
         // Fab button used to select sorting method
-        fab = (FloatingActionButton)findViewById(R.id.fab);
-        fab_rating = (FloatingActionButton)findViewById(R.id.fab_rating);
-        fab_popular = (FloatingActionButton)findViewById(R.id.fab_popular);
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
         fab.setOnClickListener(this);
@@ -55,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         movies = new ArrayList<Result>();
 
         layoutManager = new GridLayoutManager(MainActivity.this, 2);
-        rView = (RecyclerView) findViewById(R.id.recyclerView);
         rView.setHasFixedSize(true);
         rView.setLayoutManager(layoutManager);
 

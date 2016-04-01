@@ -6,9 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by philoniare on 3/11/16.
- */
 public class APIResult {
     @SerializedName("page")
     @Expose
