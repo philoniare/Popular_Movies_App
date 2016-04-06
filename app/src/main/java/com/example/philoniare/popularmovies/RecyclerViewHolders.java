@@ -25,6 +25,7 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View
 
         Movie movie = MainActivity.movies.get(getAdapterPosition());
         detailViewIntent.putExtra("title", movie.getTitle())
+                .putExtra("id", movie.getId())
                 .putExtra("poster", movie.getPosterPath())
                 .putExtra("releaseDate", movie.getReleaseDate())
                 .putExtra("description", movie.getOverview())

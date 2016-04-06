@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class APIResult {
+public class MoviesResult {
     @SerializedName("page")
     @Expose
     private Integer page;

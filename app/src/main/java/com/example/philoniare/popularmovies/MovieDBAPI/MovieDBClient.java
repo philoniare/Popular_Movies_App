@@ -5,10 +5,14 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-/**
- * Created by philoniare on 3/11/16.
- */
 public interface MovieDBClient {
-    @GET("{criteria}?api_key=392c01ca59dd8e41800fed31485b99a9")
-    Call<APIResult> fetchMovies(@Path("criteria") String criteria);
+    String API_KEY = "392c01ca59dd8e41800fed31485b99a9";
+    @GET("{criteria}?api_key=" + API_KEY)
+    Call<MoviesResult> fetchMovies(@Path("criteria") String criteria);
+
+    @GET("{id}/videos?api_key=" + API_KEY)
+    Call<VideoResult> fetchVideos(@Path("id") int id);
+
+    @GET("{id}/reviews?api_key=" + API_KEY)
+    Call<ReviewResult> fetchReviews(@Path("id") int id);
 }

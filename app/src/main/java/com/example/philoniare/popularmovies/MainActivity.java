@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.example.philoniare.popularmovies.MovieDBAPI.APIResult;
+import com.example.philoniare.popularmovies.MovieDBAPI.MoviesResult;
 import com.example.philoniare.popularmovies.MovieDBAPI.Movie;
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBClient;
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBServiceGenerator;
@@ -70,12 +70,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void fetchMovies(String criteria){
         MovieDBClient client = MovieDBServiceGenerator.createService(MovieDBClient.class);
 
-        Call<APIResult> call = client.fetchMovies(criteria);
-        call.enqueue(new Callback<APIResult>() {
+        Call<MoviesResult> call = client.fetchMovies(criteria);
+        call.enqueue(new Callback<MoviesResult>() {
             @Override
-            public void onResponse(Call<APIResult> call, Response<APIResult> response) {
+            public void onResponse(Call<MoviesResult> call, Response<MoviesResult> response) {
                 if(response.isSuccess()) {
-                    APIResult res = response.body();
+                    MoviesResult res = response.body();
                     for(Movie movie : res.getResults()) {
                         movies.add(movie);
                     }
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             @Override
-            public void onFailure(Call<APIResult> call, Throwable t) {
+            public void onFailure(Call<MoviesResult> call, Throwable t) {
                 t.printStackTrace();
             }
         });
