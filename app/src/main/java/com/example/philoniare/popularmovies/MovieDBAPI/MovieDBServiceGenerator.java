@@ -4,9 +4,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by philoniare on 3/11/16.
- */
 public class MovieDBServiceGenerator {
     public static final String API_BASE_URL = "https://api.themoviedb.org/3/movie/";
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();

@@ -6,16 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.philoniare.popularmovies.MovieDBAPI.Result;
+import com.example.philoniare.popularmovies.MovieDBAPI.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolders> {
-    private List<Result> movies;
+    private List<Movie> movies;
     private Context context;
 
-    public RecyclerViewAdapter(Context context, List<Result> movies) {
+    public RecyclerViewAdapter(Context context, List<Movie> movies) {
         this.movies = movies;
         this.context = context;
     }

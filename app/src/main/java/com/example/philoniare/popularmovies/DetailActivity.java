@@ -2,7 +2,6 @@ package com.example.philoniare.popularmovies;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -10,10 +9,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.philoniare.popularmovies.RealmDB.Movie;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.play_fab) FloatingActionButton fab;
@@ -27,12 +28,13 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
         ButterKnife.bind(this);
-
+        toolbar.getBackground().setAlpha(0);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Will play the trailer", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                fab.setImageResource(R.drawable.star_pressed);
+                // Update the database with fav settings
+
             }
         });
 
@@ -42,20 +44,20 @@ public class DetailActivity extends AppCompatActivity {
             Log.e("Popular Movies: ", "SupportActionBar - " + e.toString());
         }
 
-        toolbar.getBackground().setAlpha(0);
 
-        Bundle bundle = getIntent().getExtras();
-        String title = bundle.getString("title");
-        String poster = bundle.getString("poster");
-        String releaseDate = bundle.getString("releaseDate");
-        String description = bundle.getString("description");
-        String rating = bundle.getString("rating");
-        String trailer = bundle.getString("trailer");
+        // Get the movie information from Realm
+        int movie_id = getIntent().getExtras().getInt("id");
+        Realm realm = Realm.getDefaultInstance();
+        Movie currMovie = realm.where(Movie.class)
+                .equalTo("id", movie_id).findFirst();
+
+        Log.d("CurrMovie: ", currMovie.getTitle());
+
 
         // Test with bind here
         String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w500";
-        Picasso.with(this).load(BASE_IMAGE_URL + poster).into(movie_poster);
-        titleView.setText(title);
-        descriptionView.setText(description);
+        Picasso.with(this).load(BASE_IMAGE_URL + currMovie.getPoster()).into(movie_poster);
+        titleView.setText(currMovie.getTitle());
+        descriptionView.setText(currMovie.getDescription());
     }
 }

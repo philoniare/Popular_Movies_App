@@ -12,7 +12,7 @@ public class APIResult {
     private Integer page;
     @SerializedName("results")
     @Expose
-    private List<Result> results = new ArrayList<Result>();
+    private List<Movie> results = new ArrayList<Movie>();
     @SerializedName("total_results")
     @Expose
     private Integer totalResults;
@@ -43,7 +43,7 @@ public class APIResult {
      * @return
      * The results
      */
-    public List<Result> getResults() {
+    public List<Movie> getResults() {
         return results;
     }
 
@@ -52,7 +52,7 @@ public class APIResult {
      * @param results
      * The results
      */
-    public void setResults(List<Result> results) {
+    public void setResults(List<Movie> results) {
         this.results = results;
     }
 

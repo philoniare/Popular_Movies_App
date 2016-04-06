@@ -12,9 +12,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.example.philoniare.popularmovies.MovieDBAPI.APIResult;
+import com.example.philoniare.popularmovies.MovieDBAPI.Movie;
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBClient;
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBServiceGenerator;
-import com.example.philoniare.popularmovies.MovieDBAPI.Result;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,9 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private GridLayoutManager layoutManager;
-    public static List<Result> movies;
     private Boolean isFabOpen = false;
     private Animation fab_open,fab_close;
+    public static List<Movie> movies;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -55,8 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab_rating.setOnClickListener(this);
         fab_popular.setOnClickListener(this);
 
-        movies = new ArrayList<Result>();
-
+        movies = new ArrayList<> ();
         layoutManager = new GridLayoutManager(MainActivity.this, 2);
         rView.setHasFixedSize(true);
         rView.setLayoutManager(layoutManager);
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<APIResult> call, Response<APIResult> response) {
                 if(response.isSuccess()) {
                     APIResult res = response.body();
-                    for(Result movie : res.getResults()) {
+                    for(Movie movie : res.getResults()) {
                         movies.add(movie);
                     }
                     rView.getAdapter().notifyDataSetChanged();
@@ -113,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab_rating.setClickable(false);
         fab_popular.setClickable(false);
         isFabOpen = false;
-    };
+    }
 
     private void updateMovies(String criteria) {
         movies.clear();

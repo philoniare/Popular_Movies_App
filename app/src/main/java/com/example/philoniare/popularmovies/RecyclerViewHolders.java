@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.philoniare.popularmovies.MovieDBAPI.Result;
+import com.example.philoniare.popularmovies.MovieDBAPI.Movie;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,7 +23,7 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View
     public void onClick(View view) {
         Intent detailViewIntent = new Intent(view.getContext(), DetailActivity.class);
 
-        Result movie = MainActivity.movies.get(getAdapterPosition());
+        Movie movie = MainActivity.movies.get(getAdapterPosition());
         detailViewIntent.putExtra("title", movie.getTitle())
                 .putExtra("poster", movie.getPosterPath())
                 .putExtra("releaseDate", movie.getReleaseDate())
