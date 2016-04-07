@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBClient;
@@ -15,10 +16,11 @@ import com.example.philoniare.popularmovies.MovieDBAPI.Review;
 import com.example.philoniare.popularmovies.MovieDBAPI.ReviewResult;
 import com.example.philoniare.popularmovies.MovieDBAPI.Video;
 import com.example.philoniare.popularmovies.MovieDBAPI.VideoResult;
+import com.example.philoniare.popularmovies.adapter.ReviewAdapter;
+import com.example.philoniare.popularmovies.adapter.TrailerAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,9 +35,14 @@ public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.title) TextView titleView;
     @Bind(R.id.description) TextView descriptionView;
     @Bind(R.id.detail_toolbar) Toolbar toolbar;
+    @Bind(R.id.trailers) ListView trailersLV;
+    @Bind(R.id.reviews) ListView reviewsLV;
 
-    List<Review> reviews = new ArrayList<>();
-    List<Video> trailers = new ArrayList<>();
+
+    ArrayList<Review> reviews = new ArrayList<>();
+    TrailerAdapter trailerAdapter;
+    ArrayList<Video> trailers = new ArrayList<>();
+    ReviewAdapter reviewAdapter;
     MovieDBClient client;
     int movieId;
 
@@ -84,6 +91,12 @@ public class DetailActivity extends AppCompatActivity {
         titleView.setText(title);
         descriptionView.setText(description);
 
+        trailerAdapter = new TrailerAdapter(this, trailers);
+        reviewAdapter = new ReviewAdapter(this, reviews);
+        trailersLV.setAdapter(trailerAdapter);
+        reviewsLV.setAdapter(reviewAdapter);
+
+
         fetchReviews();
         fetchTrailers();
     }
@@ -96,7 +109,7 @@ public class DetailActivity extends AppCompatActivity {
                 if(response.isSuccess()) {
                     ReviewResult res = response.body();
                     for(Review review : res.getResults()) {
-                        reviews.add(review);
+                        reviewAdapter.add(review);
                         Log.d("Popular Apps: ", review.getAuthor());
                     }
                 } else {
@@ -121,7 +134,7 @@ public class DetailActivity extends AppCompatActivity {
                 if(response.isSuccess()) {
                     VideoResult res = response.body();
                     for(Video trailer : res.getResults()) {
-                        trailers.add(trailer);
+                        trailerAdapter.add(trailer);
                         Log.d("Popular Apps: ", trailer.getKey());
                     }
                 } else {
