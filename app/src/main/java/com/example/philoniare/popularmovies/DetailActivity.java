@@ -1,11 +1,14 @@
 package com.example.philoniare.popularmovies;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -94,8 +97,24 @@ public class DetailActivity extends AppCompatActivity {
         trailerAdapter = new TrailerAdapter(this, trailers);
         reviewAdapter = new ReviewAdapter(this, reviews);
         trailersLV.setAdapter(trailerAdapter);
+        trailersLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String YOUTUBE_URL = "https://www.youtube.com/watch?v="
+                        + trailers.get(position).getKey();
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE_URL));
+                startActivity(i);
+            }
+        });
         reviewsLV.setAdapter(reviewAdapter);
-
+        reviewsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String REVIEW_URL = reviews.get(position).getUrl();
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(REVIEW_URL));
+                startActivity(i);
+            }
+        });
 
         fetchReviews();
         fetchTrailers();

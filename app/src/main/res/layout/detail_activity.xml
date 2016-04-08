@@ -54,16 +54,29 @@
                     android:layout_margin="@dimen/spacing_large"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_trailers"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
                 <ListView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/trailers">
                 </ListView>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_reviews"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
                 <ListView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/reviews">
+
                 </ListView>
             </LinearLayout>
         </android.support.v7.widget.CardView>
