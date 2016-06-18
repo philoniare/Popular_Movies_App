@@ -27,6 +27,10 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,25 +45,66 @@ public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.trailers) ListView trailersLV;
     @Bind(R.id.reviews) ListView reviewsLV;
 
-
     ArrayList<Review> reviews = new ArrayList<>();
     TrailerAdapter trailerAdapter;
     ArrayList<Video> trailers = new ArrayList<>();
     ReviewAdapter reviewAdapter;
     MovieDBClient client;
     int movieId;
+    Realm realm;
+    boolean isFavorite;
+    FavoriteMovie currFavMovie;
+    RealmObject realmCurrFavMovie;  // Realm managed object
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
         ButterKnife.bind(this);
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).deleteRealmIfMigrationNeeded().build();
+        Realm.setDefaultConfiguration(realmConfig);
+        realm = Realm.getDefaultInstance();
         toolbar.getBackground().setAlpha(0);
+        isFavorite = false;
+
+        // Fetch data passed from MainActivity
+        Bundle bundle = getIntent().getExtras();
+        String title = bundle.getString("title");
+        String poster = bundle.getString("poster");
+        String releaseDate = bundle.getString("releaseDate");
+        String description = bundle.getString("description");
+        String rating = bundle.getString("rating");
+        String trailer = bundle.getString("trailer");
+        movieId = bundle.getInt("id");
+        currFavMovie = new FavoriteMovie(movieId, title, poster, description, rating);
+
+
+        // Find if movie is already favorited
+        final RealmResults<FavoriteMovie> favMovies = realm.where(FavoriteMovie.class).findAll();
+        for (FavoriteMovie favMovie : favMovies) {
+            if (favMovie.getMovieId() == movieId) {
+                realmCurrFavMovie = favMovie;
+                fab.setImageResource(R.drawable.star_pressed);
+                isFavorite = true;
+            }
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fab.setImageResource(R.drawable.star_pressed);
-                // Update the database with fav settings
+                if (isFavorite) {
+                    fab.setImageResource(R.drawable.star_outline);
+                    realm.beginTransaction();
+                    realmCurrFavMovie.deleteFromRealm();
+                    realm.commitTransaction();
+                    isFavorite = false;
+                } else {
+                    fab.setImageResource(R.drawable.star_pressed);
+                    realm.beginTransaction();
+                    final FavoriteMovie favMovie = realm.copyToRealm(currFavMovie);
+                    realm.commitTransaction();
+                    isFavorite = true;
+                }
             }
         });
 
@@ -69,29 +114,13 @@ public class DetailActivity extends AppCompatActivity {
             Log.e("Popular Movies: ", "SupportActionBar - " + e.toString());
         }
 
-
-//        // Get the movie information from Realm
-//        int movie_id = getIntent().getExtras().getInt("id");
-//        Realm realm = Realm.getDefaultInstance();
-//        Movie currMovie = realm.where(Movie.class)
-//                .equalTo("id", movie_id).findFirst();
-//
-//        Log.d("CurrMovie: ", currMovie.getTitle());
         client = MovieDBServiceGenerator.createService(MovieDBClient.class);
-
-        Bundle bundle = getIntent().getExtras();
-        String title = bundle.getString("title");
-        String poster = bundle.getString("poster");
-        String releaseDate = bundle.getString("releaseDate");
-        String description = bundle.getString("description");
-        String rating = bundle.getString("rating");
-        String trailer = bundle.getString("trailer");
-        movieId = bundle.getInt("id");
 
         // Test with bind here
         String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w500";
         Picasso.with(this).load(BASE_IMAGE_URL + poster).into(movie_poster);
-        titleView.setText(title);
+        String movie_title = title + "(Rating: " + rating + ")";
+        titleView.setText(movie_title);
         descriptionView.setText(description);
 
         trailerAdapter = new TrailerAdapter(this, trailers);

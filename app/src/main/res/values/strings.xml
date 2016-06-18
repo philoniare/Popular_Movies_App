@@ -3,4 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_trailers">Trailers</string>
     <string name="title_reviews">Reviews</string>
+    <string name="sort_highest_rated">Highest Rated</string>
+    <string name="sort_favorites">My Favorites</string>
+    <string name="sort_most_popular">Most Popular</string>
 </resources>

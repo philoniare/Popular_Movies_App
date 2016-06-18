@@ -33,12 +33,64 @@
 
     <include layout="@layout/content_main" />
 
+    <TextView
+        android:id="@+id/text_view_rating"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="70dp"
+        android:layout_marginBottom="105dp"
+        android:textColor="@android:color/white"
+        android:padding="5dp"
+        android:background="@drawable/background_rounded"
+        android:text="@string/sort_highest_rated"/>
+
+    <TextView
+        android:id="@+id/text_view_popular"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="165dp"
+        android:layout_marginRight="70dp"
+        android:textColor="@android:color/white"
+        android:padding="5dp"
+        android:background="@drawable/background_rounded"
+        android:text="@string/sort_most_popular" />
+
+    <TextView
+        android:id="@+id/text_view_favorites"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="225dp"
+        android:layout_marginRight="70dp"
+        android:padding="5dp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/background_rounded"
+        android:text="@string/sort_favorites"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_favorites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="210dp"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:src="@android:drawable/ic_menu_sort_by_size" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_popular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="150dp"
         android:layout_marginRight="@dimen/fab_margin"
         android:visibility="invisible"
         app:backgroundTint="@color/colorPrimaryDark"
