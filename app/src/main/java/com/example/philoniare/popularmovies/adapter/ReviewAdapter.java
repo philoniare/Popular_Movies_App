@@ -26,7 +26,7 @@ public class ReviewAdapter extends ArrayAdapter<Review> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_review, parent, false);
         }
         TextView reviewAuthor = (TextView) convertView.findViewById(R.id.author);
-        reviewAuthor.setText("Review by " + review.getAuthor());
+        reviewAuthor.setText(review.getContent() + " by " + review.getAuthor());
         return convertView;
     }
 }
