@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -17,16 +18,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.philoniare.popularmovies.model.FavoriteMovie;
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBClient;
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBServiceGenerator;
-import com.example.philoniare.popularmovies.R;
-import com.example.philoniare.popularmovies.model.Review;
 import com.example.philoniare.popularmovies.MovieDBAPI.ReviewResult;
-import com.example.philoniare.popularmovies.model.Video;
 import com.example.philoniare.popularmovies.MovieDBAPI.VideoResult;
+import com.example.philoniare.popularmovies.R;
 import com.example.philoniare.popularmovies.adapter.ReviewAdapter;
 import com.example.philoniare.popularmovies.adapter.TrailerAdapter;
+import com.example.philoniare.popularmovies.model.FavoriteMovie;
+import com.example.philoniare.popularmovies.model.Review;
+import com.example.philoniare.popularmovies.model.Video;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -44,18 +45,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailFragment extends Fragment {
-    @Bind(R.id.play_fab)
-    FloatingActionButton fab;
-    @Bind(R.id.movie_poster)
-    ImageView movie_poster;
-    @Bind(R.id.title)
-    TextView titleView;
+    @Bind(R.id.play_fab) FloatingActionButton fab;
+    @Bind(R.id.movie_poster) ImageView movie_poster;
+    @Bind(R.id.title) TextView titleView;
     @Bind(R.id.description) TextView descriptionView;
-    @Bind(R.id.detail_toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.trailers)
-    ListView trailersLV;
+    @Bind(R.id.detail_toolbar) Toolbar toolbar;
+    @Bind(R.id.trailers) ListView trailersLV;
     @Bind(R.id.reviews) ListView reviewsLV;
+    @Bind(R.id.detail_layout_container) CoordinatorLayout detailContainer;
 
     ArrayList<Review> reviews = new ArrayList<>();
     TrailerAdapter trailerAdapter;
@@ -96,79 +93,81 @@ public class DetailFragment extends Fragment {
             rating = arguments.getString("rating");
             trailer = arguments.getString("trailer");
             movieId = arguments.getInt("id");
-        }
 
-        currFavMovie = new FavoriteMovie(movieId, title, poster, description, rating);
+            currFavMovie = new FavoriteMovie(movieId, title, poster, description, rating);
 
-
-        // Find if movie is already favorited
-        final RealmResults<FavoriteMovie> favMovies = realm.where(FavoriteMovie.class).findAll();
-        for (FavoriteMovie favMovie : favMovies) {
-            if (favMovie.getMovieId() == movieId) {
-                realmCurrFavMovie = favMovie;
-                fab.setImageResource(R.drawable.star_pressed);
-                isFavorite = true;
-            }
-        }
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isFavorite) {
-                    fab.setImageResource(R.drawable.star_outline);
-                    realm.beginTransaction();
-                    realmCurrFavMovie.deleteFromRealm();
-                    realm.commitTransaction();
-                    isFavorite = false;
-                } else {
+            // Find if movie is already set as favorite
+            final RealmResults<FavoriteMovie> favMovies = realm.where(FavoriteMovie.class).findAll();
+            for (FavoriteMovie favMovie : favMovies) {
+                if (favMovie.getMovieId() == movieId) {
+                    realmCurrFavMovie = favMovie;
                     fab.setImageResource(R.drawable.star_pressed);
-                    realm.beginTransaction();
-                    final FavoriteMovie favMovie = realm.copyToRealm(currFavMovie);
-                    realm.commitTransaction();
                     isFavorite = true;
+                    break;
                 }
             }
-        });
 
-        try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        } catch(NullPointerException e) {
-            Log.e("Popular Movies: ", "SupportActionBar - " + e.toString());
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isFavorite) {
+                        fab.setImageResource(R.drawable.star_outline);
+                        realm.beginTransaction();
+                        realmCurrFavMovie.deleteFromRealm();
+                        realm.commitTransaction();
+                        isFavorite = false;
+                    } else {
+                        fab.setImageResource(R.drawable.star_pressed);
+                        realm.beginTransaction();
+                        final FavoriteMovie favMovie = realm.copyToRealm(currFavMovie);
+                        realm.commitTransaction();
+                        isFavorite = true;
+                    }
+                }
+            });
+
+            try {
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+            } catch(NullPointerException e) {
+                Log.e("Popular Movies: ", "SupportActionBar - " + e.toString());
+            }
+
+            client = MovieDBServiceGenerator.createService(MovieDBClient.class);
+
+            // Test with bind here
+            String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w500";
+            Picasso.with(getActivity()).load(BASE_IMAGE_URL + poster).into(movie_poster);
+            String movie_title = title + "(Rating: " + rating + ")";
+            titleView.setText(movie_title);
+            descriptionView.setText(description);
+
+            trailerAdapter = new TrailerAdapter(getActivity(), trailers);
+            reviewAdapter = new ReviewAdapter(getActivity(), reviews);
+            trailersLV.setAdapter(trailerAdapter);
+            trailersLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String YOUTUBE_URL = "https://www.youtube.com/watch?v="
+                            + trailers.get(position).getKey();
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE_URL));
+                    startActivity(i);
+                }
+            });
+            reviewsLV.setAdapter(reviewAdapter);
+            reviewsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String REVIEW_URL = reviews.get(position).getUrl();
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(REVIEW_URL));
+                    startActivity(i);
+                }
+            });
+
+            fetchReviews();
+            fetchTrailers();
+        } else {
+            detailContainer.setVisibility(View.INVISIBLE);
         }
-
-        client = MovieDBServiceGenerator.createService(MovieDBClient.class);
-
-        // Test with bind here
-        String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w500";
-        Picasso.with(getActivity()).load(BASE_IMAGE_URL + poster).into(movie_poster);
-        String movie_title = title + "(Rating: " + rating + ")";
-        titleView.setText(movie_title);
-        descriptionView.setText(description);
-
-        trailerAdapter = new TrailerAdapter(getActivity(), trailers);
-        reviewAdapter = new ReviewAdapter(getActivity(), reviews);
-        trailersLV.setAdapter(trailerAdapter);
-        trailersLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String YOUTUBE_URL = "https://www.youtube.com/watch?v="
-                        + trailers.get(position).getKey();
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE_URL));
-                startActivity(i);
-            }
-        });
-        reviewsLV.setAdapter(reviewAdapter);
-        reviewsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String REVIEW_URL = reviews.get(position).getUrl();
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(REVIEW_URL));
-                startActivity(i);
-            }
-        });
-
-        fetchReviews();
-        fetchTrailers();
         return view;
     }
 

@@ -8,11 +8,15 @@
     tools:context="com.example.philoniare.popularmovies.view.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <android.support.v7.widget.RecyclerView
+    <com.example.philoniare.popularmovies.recyclerview.CustomRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView android:id="@+id/list_empty"
+        android:gravity="center"
+        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerView">
-
-    </android.support.v7.widget.RecyclerView>
-
+        android:text="@string/movie_list_empty" />
 </RelativeLayout>

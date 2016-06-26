@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +21,7 @@ import com.example.philoniare.popularmovies.MovieDBAPI.MoviesResult;
 import com.example.philoniare.popularmovies.R;
 import com.example.philoniare.popularmovies.model.FavoriteMovie;
 import com.example.philoniare.popularmovies.model.Movie;
+import com.example.philoniare.popularmovies.recyclerview.CustomRecyclerView;
 import com.example.philoniare.popularmovies.recyclerview.RecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -53,7 +53,8 @@ public class MovieFragment extends Fragment implements View.OnClickListener  {
     @Bind(R.id.text_view_popular) TextView text_view_popular;
     @Bind(R.id.text_view_rating) TextView text_view_rating;
 
-    @Bind(R.id.recyclerView) RecyclerView rView;
+    @Bind(R.id.recyclerView) CustomRecyclerView rView;
+    @Bind(R.id.list_empty) TextView emptyView;
 
     public MovieFragment() {}
     @Override
@@ -86,6 +87,7 @@ public class MovieFragment extends Fragment implements View.OnClickListener  {
         layoutManager = new GridLayoutManager(getActivity(), 2);
         rView.setHasFixedSize(true);
         rView.setLayoutManager(layoutManager);
+        rView.setEmptyView(emptyView);
 
         RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(getActivity(), movies, getActivity().getSupportFragmentManager());
         rView.setAdapter(rcAdapter);
