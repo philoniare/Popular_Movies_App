@@ -84,14 +84,13 @@ public class DetailFragment extends Fragment {
 
         // Fetch data passed from MainActivity
         Bundle arguments = getArguments();
-        String title = "", poster = "", releaseDate = "", description = "", rating = "", trailer="";
+        String title = "", poster = "", releaseDate = "", description = "", rating = "";
         if (arguments != null) {
             title = arguments.getString("title");
             poster = arguments.getString("poster");
             releaseDate = arguments.getString("releaseDate");
             description = arguments.getString("description");
             rating = arguments.getString("rating");
-            trailer = arguments.getString("trailer");
             movieId = arguments.getInt("id");
 
             currFavMovie = new FavoriteMovie(movieId, title, poster, description, rating);
@@ -119,7 +118,7 @@ public class DetailFragment extends Fragment {
                     } else {
                         fab.setImageResource(R.drawable.star_pressed);
                         realm.beginTransaction();
-                        final FavoriteMovie favMovie = realm.copyToRealm(currFavMovie);
+                        realm.copyToRealm(currFavMovie);
                         realm.commitTransaction();
                         isFavorite = true;
                     }

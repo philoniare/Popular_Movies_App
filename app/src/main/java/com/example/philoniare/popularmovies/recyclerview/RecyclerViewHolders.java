@@ -39,7 +39,6 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View
         arguments.putString("releaseDate", movie.getReleaseDate());
         arguments.putString("description", movie.getOverview());
         arguments.putString("rating", movie.getVoteAverage().toString());
-        arguments.putString("trailer", movie.getVideo().toString());
         arguments.putInt("id", movie.getId());
 
         if (mTwoPane) {
