@@ -1,4 +1,4 @@
-package com.example.philoniare.popularmovies;
+package com.example.philoniare.popularmovies.view;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -17,11 +17,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.philoniare.popularmovies.model.FavoriteMovie;
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBClient;
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBServiceGenerator;
-import com.example.philoniare.popularmovies.MovieDBAPI.Review;
+import com.example.philoniare.popularmovies.R;
+import com.example.philoniare.popularmovies.model.Review;
 import com.example.philoniare.popularmovies.MovieDBAPI.ReviewResult;
-import com.example.philoniare.popularmovies.MovieDBAPI.Video;
+import com.example.philoniare.popularmovies.model.Video;
 import com.example.philoniare.popularmovies.MovieDBAPI.VideoResult;
 import com.example.philoniare.popularmovies.adapter.ReviewAdapter;
 import com.example.philoniare.popularmovies.adapter.TrailerAdapter;

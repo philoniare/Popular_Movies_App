@@ -1,4 +1,4 @@
-package com.example.philoniare.popularmovies;
+package com.example.philoniare.popularmovies.recyclerview;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.philoniare.popularmovies.MovieDBAPI.Movie;
+import com.example.philoniare.popularmovies.view.DetailFragment;
+import com.example.philoniare.popularmovies.view.MainActivity;
+import com.example.philoniare.popularmovies.view.MovieFragment;
+import com.example.philoniare.popularmovies.R;
+import com.example.philoniare.popularmovies.model.Movie;
+import com.example.philoniare.popularmovies.view.DetailActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

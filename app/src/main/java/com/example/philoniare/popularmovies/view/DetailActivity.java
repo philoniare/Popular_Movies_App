@@ -1,7 +1,9 @@
-package com.example.philoniare.popularmovies;
+package com.example.philoniare.popularmovies.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.philoniare.popularmovies.R;
 
 public class DetailActivity extends AppCompatActivity {
 

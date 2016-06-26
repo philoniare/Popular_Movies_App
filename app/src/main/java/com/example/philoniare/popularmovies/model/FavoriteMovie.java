@@ -1,4 +1,4 @@
-package com.example.philoniare.popularmovies;
+package com.example.philoniare.popularmovies.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

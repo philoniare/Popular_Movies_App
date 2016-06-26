@@ -1,5 +1,6 @@
 package com.example.philoniare.popularmovies.MovieDBAPI;
 
+import com.example.philoniare.popularmovies.model.Review;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

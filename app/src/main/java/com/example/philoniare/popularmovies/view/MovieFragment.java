@@ -1,4 +1,4 @@
-package com.example.philoniare.popularmovies;
+package com.example.philoniare.popularmovies.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,10 +16,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.example.philoniare.popularmovies.MovieDBAPI.Movie;
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBClient;
 import com.example.philoniare.popularmovies.MovieDBAPI.MovieDBServiceGenerator;
 import com.example.philoniare.popularmovies.MovieDBAPI.MoviesResult;
+import com.example.philoniare.popularmovies.R;
+import com.example.philoniare.popularmovies.model.FavoriteMovie;
+import com.example.philoniare.popularmovies.model.Movie;
+import com.example.philoniare.popularmovies.recyclerview.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,20 +44,16 @@ public class MovieFragment extends Fragment implements View.OnClickListener  {
     public static List<Movie> movies;
     Realm realm;
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.fab_rating) FloatingActionButton fab_rating;
     @Bind(R.id.fab_popular) FloatingActionButton fab_popular;
     @Bind(R.id.fab_favorites) FloatingActionButton fab_favorites;
-    @Bind(R.id.text_view_favorites)
-    TextView text_view_favorites;
+    @Bind(R.id.text_view_favorites) TextView text_view_favorites;
     @Bind(R.id.text_view_popular) TextView text_view_popular;
     @Bind(R.id.text_view_rating) TextView text_view_rating;
 
-    @Bind(R.id.recyclerView)
-    RecyclerView rView;
+    @Bind(R.id.recyclerView) RecyclerView rView;
 
     public MovieFragment() {}
     @Override

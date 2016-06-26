@@ -3,15 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <fragment
         android:id="@+id/movie_fragment"
         android:layout_weight="2"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:name="com.example.philoniare.popularmovies.MovieFragment"
-        tools:context=".MovieFragment" />
+        android:name="com.example.philoniare.popularmovies.view.MovieFragment"
+        tools:context=".view.MovieFragment" />
 
     <FrameLayout
         android:id="@+id/movie_detail_fragment"

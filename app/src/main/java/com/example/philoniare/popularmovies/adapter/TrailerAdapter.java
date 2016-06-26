@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.philoniare.popularmovies.MovieDBAPI.Video;
+import com.example.philoniare.popularmovies.model.Video;
 import com.example.philoniare.popularmovies.R;
 
 import java.util.ArrayList;

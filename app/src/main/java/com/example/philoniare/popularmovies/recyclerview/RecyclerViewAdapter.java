@@ -1,4 +1,4 @@
-package com.example.philoniare.popularmovies;
+package com.example.philoniare.popularmovies.recyclerview;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
@@ -7,7 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.philoniare.popularmovies.MovieDBAPI.Movie;
+import com.example.philoniare.popularmovies.R;
+import com.example.philoniare.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -3,6 +3,6 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:id="@+id/movie_fragment"
-    android:name="com.example.philoniare.popularmovies.MovieFragment"
-    tools:context="com.example.philoniare.popularmovies.MovieFragment"
+    android:name="com.example.philoniare.popularmovies.view.MovieFragment"
+    tools:context="com.example.philoniare.popularmovies.view.MovieFragment"
     />
