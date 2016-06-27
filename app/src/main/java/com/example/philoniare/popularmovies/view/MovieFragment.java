@@ -60,7 +60,6 @@ public class MovieFragment extends Fragment implements View.OnClickListener  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -113,21 +112,22 @@ public class MovieFragment extends Fragment implements View.OnClickListener  {
                     rView.getAdapter().notifyDataSetChanged();
 
                     // Initialize the two-pane detail view to first movie in list
-                    Movie movie = movies.get(0);
-                    Bundle arguments = new Bundle();
-                    arguments.putString("title", movie.getTitle());
-                    arguments.putString("poster", movie.getPosterPath());
-                    arguments.putString("releaseDate", movie.getReleaseDate());
-                    arguments.putString("description", movie.getOverview());
-                    arguments.putString("rating", movie.getVoteAverage().toString());
-                    arguments.putString("trailer", movie.getVideo().toString());
-                    arguments.putInt("id", movie.getId());
-                    DetailFragment detailFragment = new DetailFragment();
-                    detailFragment.setArguments(arguments);
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.movie_detail_fragment, detailFragment)
-                            .commit();
-
+                    if(MainActivity.mTwoPane) {
+                        Movie movie = movies.get(0);
+                        Bundle arguments = new Bundle();
+                        arguments.putString("title", movie.getTitle());
+                        arguments.putString("poster", movie.getPosterPath());
+                        arguments.putString("releaseDate", movie.getReleaseDate());
+                        arguments.putString("description", movie.getOverview());
+                        arguments.putString("rating", movie.getVoteAverage().toString());
+                        arguments.putString("trailer", movie.getVideo().toString());
+                        arguments.putInt("id", movie.getId());
+                        DetailFragment detailFragment = new DetailFragment();
+                        detailFragment.setArguments(arguments);
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.movie_detail_fragment, detailFragment)
+                                .commit();
+                    }
                 } else {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
